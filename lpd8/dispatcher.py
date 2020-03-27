@@ -2,7 +2,9 @@ from lpd8.subscriber import Subscriber
 
 class Dispatcher:
     """
-    Class used to store subscribers to LPD8 events
+    Class used to store subscribers to LPD8 events. A subscriber may be added or suppressed from the dispatcher array
+    When a specific event arrives, the notify method is used to retrieve all subscribers to this event and send them
+    a notification and associated data
     """
     def __init__(self):
         self._subscribers = []

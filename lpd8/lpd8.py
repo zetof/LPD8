@@ -7,6 +7,9 @@ from lpd8.knobs import Knobs
 from lpd8.pads import Pad, Pads
 
 class LPD8(Thread):
+    """
+    Main class defining the LPD8 object
+    """
 
     NAME = 'LPD8'
     DELAY = 1

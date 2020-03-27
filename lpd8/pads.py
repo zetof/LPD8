@@ -1,12 +1,16 @@
 from lpd8.programs import Programs
 
 class Pad:
+    """
+    Class that defines a single pad
+    A pad can have multiple modes and these modes may be combined
+    """
 
-    NO_MODE = 0
-    SWITCH_MODE = 1
-    PUSH_MODE = 2
-    PAD_MODE = 4
-    BLINK_MODE = 8
+    NO_MODE = 0     # Doesn't react to user actions
+    SWITCH_MODE = 1 # Switches between 1 and 0 values, both sent at NOTE ON and NOTE OFF events
+    PUSH_MODE = 2   # Always sends a 1 at Note ON event and a 0 at NOTE OFF event
+    PAD_MODE = 4    # Default mode, acts as a normal pad (sends note value and velocity)
+    BLINK_MODE = 8  # May be combined with above modes. Blinks pad at each pad_update call
 
     OFF = 0
     ON = 1
@@ -16,6 +20,7 @@ class Pad:
         self.set_mode(mode)
         self._state = self.OFF
 
+    # Get defined action for this pad. We need this method to get only the action without the blink mode
     def _get_action(self):
         if self._mode > self.BLINK_MODE:
             return self._mode - self.BLINK_MODE
@@ -23,6 +28,10 @@ class Pad:
             return self._mode
 
     def get_state(self):
+        """
+        According to the working mode of the pad, returns appropriate value
+        :return: The state value
+        """
         state = self.OFF
         if self._mode >= self.BLINK_MODE:
             if self._mode - self.BLINK_MODE == self.SWITCH_MODE and self._state == self.ON:
@@ -34,6 +43,10 @@ class Pad:
         return state
 
     def set_mode(self, mode):
+        """
+        Sets pad mode
+        :param mode: The desired mode - blink mode may be combined with all others
+        """
         self._mode = mode
 
     def note_on(self, velocity):
@@ -62,6 +75,9 @@ class Pad:
 
 
 class Pads:
+    """
+    Class that defines a full array of pads (8 pads in each program so 4 X 8 = 32 pads in total
+    """
 
     PAD_1 = 60
     PAD_2 = 62
