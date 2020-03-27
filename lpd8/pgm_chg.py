@@ -1,4 +1,8 @@
 class Pgm_Chg:
+    """
+    A class defining all possible values for a program change event
+    Also makes an array containing all program change IDs and defines the maximum number of available program changes
+    """
 
     PGM_CHG_1 = 1
     PGM_CHG_2 = 2
