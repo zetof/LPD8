@@ -47,6 +47,11 @@ class Knob:
         else:
             return False
 
+    def set_sticky(self):
+        self._sticky = True
+
+    def set_not_sticky(self):
+        self._sticky = False
 
     def set_limits(self, min_value=0, max_value=_MIDI_STEPS, is_int=True, steps=0):
         self._min_value = min_value
@@ -85,3 +90,9 @@ class Knobs:
 
     def set_value(self, program, knob, value):
         self._knobs[program][knob].set_value(value)
+
+    def set_sticky(self, program, knob):
+        self._knobs[program][knob].set_sticky()
+
+    def set_not_sticky(self, program, knob):
+        self._knobs[program][knob].set_not_sticky()

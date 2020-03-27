@@ -30,6 +30,12 @@ test = Test()
 lpd8 = LPD8()
 lpd8.start()
 
+# In normal times, a control knob is meant to be sticky. That means that if we change program and then knob
+# value, knob will not react when we return to original program until last stored value for this program
+# will be reached. Know will then follow changes normally
+# Note that we can define sticky mode for a single knob, an array of knobs or all knobs
+lpd8.set_not_sticky_knob(Programs.PGM_4, [Knobs.KNOB_1, Knobs.KNOB_2, Knobs.KNOB_3, Knobs.KNOB_4])
+
 # In all following settings, we will define limits / actions for PROGRAM 4
 # Define control knob 1 limits from -1 to 1 and set increments to float values
 # Define control knob 2 limits from 0 to 100 with 10 steps (limit values to 0, 10, 20, ..., 90, 100)
