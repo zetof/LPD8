@@ -1,15 +1,16 @@
 # lpd8
-## A Python library to interface an AKAI LPD8 pad device
+### A Python library to interface an AKAI LPD8 pad device
 ![AKAI LPD8](https://d1jtxvnvoxswj8.cloudfront.net/catalog/product/cache/421fe9f256d7dd674b5a25e9478e383f/l/p/lpd8_web_large.jpg_2a5e9928f9c871bf86f5a4d05b4453e6.jpg)
+
 This little library is designed to help the integration of an AKAI LPD8 pad into a Python program.
 It is easy to integrate and simple to use. Based on the rtmidi library, it uses MIDI messages to
 communicate with the LPD8 device and reads messages coming from it.
-In PAD mode, it allows some pads to blink or to have an ON (light on) and OFF (light off) mode.
+In PAD mode, it allows some pads to blink or to have an ON (light on) and OFF (light off) state.
 It allows the use of 4 programs and has a sticky mode for knob controls, meaning that the library
-stores knob states for each program and only reacts to a knob if its value is set to previous state
+stores knob states for each program and only reacts to a knob if its value is set to its previous state
 for a given program.
-Knobs limits and behaviour are configurable, so are pads.
-It uses a subscription mechanism to each event, allowing trigerring of specific methods. These methods
+Knob limits and behaviours are configurable, so are pads.
+It uses a subscription mechanism for each event, allowing triggering of specific methods of objects. These methods
 may then implement other MIDI or OSC events or pilot a visual interface.
 
 ### Example of use
