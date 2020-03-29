@@ -1,6 +1,6 @@
 from lpd8.pgm_chg import Pgm_Chg
 
-class Test:
+class Consummer:
 
     def __init__(self):
         self._running = True

@@ -20,11 +20,11 @@ from lpd8.programs import Programs
 from lpd8.pads import Pad, Pads
 from lpd8.knobs import Knobs
 from lpd8.pgm_chg import Pgm_Chg
-from test import Test
+from consummer import Consummer
 from time import sleep
 
 # This object is created to test different callbacks from LPD8 class
-test = Test()
+consummer = Consummer()
 
 # Create an LPD8 object and try to start it (open MIDI in and out communication)
 lpd8 = LPD8()
@@ -58,13 +58,13 @@ lpd8.set_pad_mode(Programs.PGM_4, Pads.PAD_4, Pad.PUSH_MODE)
 
 # Subscribe to different events and map them to a method in test object
 # Note that we can subscribe events for a single object, an array of objects or all objects of a group
-lpd8.subscribe(test, test.ctrl_value, Programs.PGM_4, LPD8.CTRL, Knobs.ALL_KNOBS)
-lpd8.subscribe(test, test.note_on_value, Programs.PGM_4, LPD8.NOTE_ON, Pads.ALL_PADS)
-lpd8.subscribe(test, test.note_off_value, Programs.PGM_4, LPD8.NOTE_OFF, Pads.ALL_PADS)
-lpd8.subscribe(test, test.pgm_change, Programs.PGM_4, LPD8.PGM_CHG, Pgm_Chg.PGM_CHG_4)
+lpd8.subscribe(consummer, consummer.ctrl_value, Programs.PGM_4, LPD8.CTRL, Knobs.ALL_KNOBS)
+lpd8.subscribe(consummer, consummer.note_on_value, Programs.PGM_4, LPD8.NOTE_ON, Pads.ALL_PADS)
+lpd8.subscribe(consummer, consummer.note_off_value, Programs.PGM_4, LPD8.NOTE_OFF, Pads.ALL_PADS)
+lpd8.subscribe(consummer, consummer.pgm_change, Programs.PGM_4, LPD8.PGM_CHG, Pgm_Chg.PGM_CHG_4)
 
 # We loop as long as test class allows it
-while test.is_running():
+while consummer.is_running():
 
     # Every loop, we update pads status (blink, ON or OFF)
     # This method returns True if LPD8 pad is still running, False otherwise
@@ -73,7 +73,7 @@ while test.is_running():
     else:
 
         # If LPD8 pad is not running anymore, we leave the loop
-        test.stop()
+        consummer.stop()
 
 # We tidy uo things and kill LPD8 process
 lpd8.stop()
