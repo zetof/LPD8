@@ -26,7 +26,7 @@ class Pad:
         :return: The state value
         """
         state = self.OFF
-        if self._mode >= self.BLINK_MODE:
+        if self.get_mode(without_blink_mode=False) >= self.BLINK_MODE:
             if self._state == self.ON:
                 state = self.ON
             else:
@@ -51,6 +51,13 @@ class Pad:
         :param mode: The desired mode - blink mode may be combined with all others
         """
         self._mode = mode
+
+    def set_switch_state(self, state):
+        if self.get_mode() == self.SWITCH_MODE and (state == self.OFF or state == self.ON):
+            self._state = self.ON
+            return True
+        else:
+            return False
 
     def note_on(self, velocity):
         mode = self.get_mode()
@@ -126,6 +133,9 @@ class Pads:
 
     def note_off(self, program, pad):
         return self._pads[program][self._pad_index[pad]].note_off()
+
+    def set_switch_state(self, program, pad, state):
+        return self._pads[program][self._pad_index[pad]].set_switch_state(state)
 
     def get_state(self, program, pad):
         return self._pads[program][self._pad_index[pad]].get_state()

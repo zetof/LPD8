@@ -39,6 +39,10 @@ lpd8.set_pad_mode(Programs.PGM_4, [Pads.PAD_1, Pads.PAD_2], Pad.SWITCH_MODE + Pa
 lpd8.set_pad_mode(Programs.PGM_4, Pads.PAD_3, Pad.SWITCH_MODE)
 lpd8.set_pad_mode(Programs.PGM_4, Pads.PAD_4, Pad.PUSH_MODE)
 
+# For a pad of type SWITCH, sets the initial state of pad
+# Note that we can define modes for a single pad, an array of pads or all pads
+lpd8.set_pad_switch_state(Programs.PGM_4, [Pads.PAD_1, Pads.PAD_3], Pad.ON)
+
 # Subscribe to different events and map them to a method in test object
 # Note that we can subscribe events for a single object, an array of objects or all objects of a group
 lpd8.subscribe(consummer, consummer.ctrl_value, Programs.PGM_4, LPD8.CTRL, Knobs.ALL_KNOBS)
