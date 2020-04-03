@@ -1,1 +1,1 @@
-rtmidi
+python-rtmidi

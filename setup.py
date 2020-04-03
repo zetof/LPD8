@@ -19,7 +19,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        'rtmidi',
+        'python-rtmidi',
     ],
     python_requires='>=3.6',
 )

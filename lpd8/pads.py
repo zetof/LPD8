@@ -20,13 +20,6 @@ class Pad:
         self.set_mode(mode)
         self._state = self.OFF
 
-    # Get defined action for this pad. We need this method to get only the action without the blink mode
-    def _get_action(self):
-        if self._mode > self.BLINK_MODE:
-            return self._mode - self.BLINK_MODE
-        else:
-            return self._mode
-
     def get_state(self):
         """
         According to the working mode of the pad, returns appropriate value
@@ -34,13 +27,23 @@ class Pad:
         """
         state = self.OFF
         if self._mode >= self.BLINK_MODE:
-            if self._mode - self.BLINK_MODE == self.SWITCH_MODE and self._state == self.ON:
+            if self._state == self.ON:
                 state = self.ON
             else:
                 state = self.BLINK
-        elif self._mode == self.SWITCH_MODE and self._state == self.ON:
+        elif self._state == self.ON:
             state = self.ON
         return state
+
+    def get_mode(self, without_blink_mode=True):
+        """
+        Get defined action for this pad. We need this method to get only the action without the blink mode
+        :return: mode value without BLINK mode
+        """
+        if self._mode > self.BLINK_MODE and without_blink_mode:
+            return self._mode - self.BLINK_MODE
+        else:
+            return self._mode
 
     def set_mode(self, mode):
         """
@@ -50,26 +53,29 @@ class Pad:
         self._mode = mode
 
     def note_on(self, velocity):
-        action = self._get_action()
-        if action == self.SWITCH_MODE:
+        mode = self.get_mode()
+        if mode == self.SWITCH_MODE:
             if self._state == self.ON:
                 self._state = self.OFF
             else:
                 self._state = self.ON
             return self._state
-        elif action == self.PUSH_MODE:
-            return self.ON
-        elif action == self.PAD_MODE:
+        elif mode == self.PUSH_MODE:
+            self._state = self.ON
+            return self._state
+        elif mode == self.PAD_MODE:
+            self._state = self.ON
             return velocity
         else:
             return None
 
     def note_off(self):
-        action = self._get_action()
-        if action == self.SWITCH_MODE:
+        mode = self.get_mode()
+        if mode == self.SWITCH_MODE:
             return self._state
-        elif action == self.PUSH_MODE or action == self.PAD_MODE:
-            return self.OFF
+        elif mode == self.PUSH_MODE or mode == self.PAD_MODE:
+            self._state = self.OFF
+            return self._state
         else:
             return None
 
@@ -108,6 +114,9 @@ class Pads:
             self._pads.append([])
             for pad in range(pads + 1):
                 self._pads[program].append(Pad())
+
+    def get_mode(self, program, pad):
+        return self._pads[program][self._pad_index[pad]].get_mode()
 
     def set_mode(self, program, pad, mode):
         self._pads[program][self._pad_index[pad]].set_mode(mode)
