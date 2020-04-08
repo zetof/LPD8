@@ -62,5 +62,5 @@ while consummer.is_running():
         # If LPD8 pad is not running anymore, we leave the loop
         consummer.stop()
 
-# We tidy uo things and kill LPD8 process
+# We tidy up things and kill LPD8 process
 lpd8.stop()
