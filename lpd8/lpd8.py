@@ -34,7 +34,7 @@ class LPD8(Thread):
         if len(midi_ports) != 0:
             index = 0
             for name in midi_ports:
-                if name == self.NAME:
+                if name.find(self.NAME) != -1:
                     devices_list.open_port(index)
                     midi_device = devices_list
                 index += 1
