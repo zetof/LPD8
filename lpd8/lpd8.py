@@ -138,7 +138,7 @@ class LPD8(Thread):
             for pad in pads:
                 self._pads.set_switch_state(program, pad, state)
         else:
-            self._knobs.set_not_sticky(program, pads, state)
+            self._pads.set_switch_state(program, pads, state)
 
     def pad_update(self):
         if  self._running:
