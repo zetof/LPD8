@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="lpd8",
-    version="1.0.1",
+    version="1.0.2",
     author="Christophe Bury",
     author_email="zetof@zetof.net",
     description="A Python library to drive an AKAI LPD8 pad controller",
