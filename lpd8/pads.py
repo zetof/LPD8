@@ -54,7 +54,7 @@ class Pad:
 
     def set_switch_state(self, state):
         if self.get_mode() == self.SWITCH_MODE and (state == self.OFF or state == self.ON):
-            self._state = self.ON
+            self._state = state
             return True
         else:
             return False
