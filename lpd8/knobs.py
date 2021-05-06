@@ -1,3 +1,4 @@
+import math
 from math import floor
 from lpd8.programs import Programs
 
@@ -14,6 +15,7 @@ class Knob:
         self._midi_value = None
         self._sticky = True
         self._sync = 0
+        self._exp_coeff = [0, 0]
         self.set_limits()
 
     # Adjusts value if it is an integer value or if steps are defined
@@ -40,7 +42,10 @@ class Knob:
                 self._sync = 0
         if self._sync == 0:
             self._midi_value = midi_value
-            value = self._min_value + (self._max_value - self._min_value) * midi_value / self._MIDI_STEPS
+            if self._is_exp:
+                value = self._exp_coeff[0] + self._exp_coeff[1] * (10 ** (midi_value / 100))
+            else:
+                value = self._min_value + (self._max_value - self._min_value) * midi_value / self._MIDI_STEPS
             value = self._adjust_value(value)
             if value == self._value:
                 return None
@@ -55,7 +60,10 @@ class Knob:
         :return: True if value is between minimum and maximum range, false otherwise
         """
         if value >= self._min_value and value <= self._max_value:
-            self._midi_value = int(self._MIDI_STEPS * (value - self._min_value) / (self._max_value - self._min_value))
+            if self._is_exp:
+                self._midi_value = int(100 * math.log10((value - self._exp_coeff[0]) / self._exp_coeff[1]))
+            else:
+                self._midi_value = int(self._MIDI_STEPS * (value - self._min_value) / (self._max_value - self._min_value))
             self._value = self._adjust_value(value)
             return True
         else:
@@ -73,17 +81,22 @@ class Knob:
         """
         self._sticky = False
 
-    def set_limits(self, min_value=0, max_value=_MIDI_STEPS, is_int=True, steps=0):
+    def set_limits(self, min_value=0, max_value=_MIDI_STEPS, is_int=True, is_exp=False, steps=0):
         """
         Sets knob limits and behaviour
         :param min_value: The minimum value (when MIDI value is equal to 0)
         :param max_value: The maximum value (when MIDI value is equal to 127)
         :param is_int: If true, knob will only return integer values (default), otherwise float values
+        :param is_exp: If true, knob values will follow an exponential curve instead of a linear one
         :param steps: Number of steps between min and max values (O to 100 with 10 steps gives 0, 10, ... increments)
         """
         self._min_value = min_value
         self._max_value = max_value
         self._is_int = is_int
+        self._is_exp = is_exp
+        if is_exp:
+            self._exp_coeff[1] = (max_value - min_value) / (10 ** (self._MIDI_STEPS / 100) - 1)
+            self._exp_coeff[0] = min_value - self._exp_coeff[1]
         self._inc = 0
         if steps != 0:
             self._inc = (max_value - min_value) / steps
@@ -122,7 +135,7 @@ class Knobs:
         """
         return self._knobs[program][knob].get_value(midi_value)
 
-    def set_limits(self, program, knob, min_value, max_value, is_int=True, steps=0):
+    def set_limits(self, program, knob, min_value, max_value, is_int=True, is_exp=False, steps=0):
         """
         Set knob limits and behaviour in a knob array
         :param program:
@@ -130,10 +143,11 @@ class Knobs:
         :param min_value: The minimum value (when MIDI value is equal to 0)
         :param max_value: The maximum value (when MIDI value is equal to 127)
         :param is_int: If true, knob will only return integer values (default), otherwise float values
+        :param is_exp: If true, knob values will follow an exponential curve instead of a linear one
         :param steps: Number of steps between min and max values (O to 100 with 10 steps gives 0, 10, ... increments)
         :return:
         """
-        self._knobs[program][knob].set_limits(min_value, max_value, is_int, steps)
+        self._knobs[program][knob].set_limits(min_value, max_value, is_int, is_exp, steps)
 
     def set_value(self, program, knob, value):
         """

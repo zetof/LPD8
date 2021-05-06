@@ -98,12 +98,12 @@ class LPD8(Thread):
     def unsubscribe(self, program, event_type, object_id=None):
         self._dispatcher.unsubscribe(program, event_type, object_id)
 
-    def set_knob_limits(self, program, knobs, min_value, max_value, is_int=True, steps=0):
+    def set_knob_limits(self, program, knobs, min_value, max_value, is_int=True, is_exp=False, steps=0):
         if isinstance(knobs, list):
             for knob in knobs:
-                self._knobs.set_limits(program, knob, min_value, max_value, is_int, steps)
+                self._knobs.set_limits(program, knob, min_value, max_value, is_int, is_exp, steps)
         else:
-            self._knobs.set_limits(program, knobs, min_value, max_value, is_int, steps)
+            self._knobs.set_limits(program, knobs, min_value, max_value, is_int, is_exp, steps)
 
     def set_knob_value(self, program, knobs, value):
         if isinstance(knobs, list):

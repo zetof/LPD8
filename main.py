@@ -17,17 +17,22 @@ lpd8.start()
 # value, knob will not react when we return to original program until last stored value for this program
 # will be reached. It will then follow changes normally
 # Note that we can define sticky mode for a single knob, an array of knobs or all knobs
-lpd8.set_not_sticky_knob(Programs.PGM_4, [Knobs.KNOB_1, Knobs.KNOB_2, Knobs.KNOB_3, Knobs.KNOB_4])
+lpd8.set_not_sticky_knob(Programs.PGM_4, [Knobs.KNOB_1, Knobs.KNOB_2])
 
 # In all following settings, we will define limits / actions for PROGRAM 4
 # Define control knob 1 limits from -1 to 1 and set increments to float values
 # Define control knob 2 limits from 0 to 100 with 10 steps (limit values to 0, 10, 20, ..., 90, 100)
+# Define control knob 3 limits from 0 to 10000 with linear scale (default)
+# Define control knob 4 limits from 0 to 10000 with exponential scale (slow increments at the beginning)
 # Knobs that have no definition range from 0..127 with integer increments of 1 (default MIDI behaviour)
 lpd8.set_knob_limits(Programs.PGM_4, Knobs.KNOB_1, -1, 1, is_int=False)
 lpd8.set_knob_limits(Programs.PGM_4, Knobs.KNOB_2, 0, 100, steps=10)
+lpd8.set_knob_limits(Programs.PGM_4, Knobs.KNOB_3, 0, 10000)
+lpd8.set_knob_limits(Programs.PGM_4, Knobs.KNOB_4, 0, 10000, is_exp=True)
 
-# Set An initial value for knob 3 to 63
-lpd8.set_knob_value(Programs.PGM_4, Knobs.KNOB_3, 63)
+# Set An initial value for knob 3 and knob 4 to 5000
+lpd8.set_knob_value(Programs.PGM_4, Knobs.KNOB_3, 5000)
+lpd8.set_knob_value(Programs.PGM_4, Knobs.KNOB_4, 5000)
 
 # Set different modes for pads
 # Note that we can define modes for a single pad, an array of pads or all pads
