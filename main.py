@@ -45,10 +45,11 @@ lpd8.set_pad_switch_state(Programs.PGM_4, [Pads.PAD_1, Pads.PAD_3], Pad.ON)
 
 # Subscribe to different events and map them to a method in test object
 # Note that we can subscribe events for a single object, an array of objects or all objects of a group
-lpd8.subscribe(consummer, consummer.ctrl_value, Programs.PGM_4, LPD8.CTRL, Knobs.ALL_KNOBS)
-lpd8.subscribe(consummer, consummer.note_on_value, Programs.PGM_4, LPD8.NOTE_ON, Pads.ALL_PADS)
-lpd8.subscribe(consummer, consummer.note_off_value, Programs.PGM_4, LPD8.NOTE_OFF, Pads.ALL_PADS)
-lpd8.subscribe(consummer, consummer.pgm_change, Programs.PGM_4, LPD8.PGM_CHG, Pgm_Chg.PGM_CHG_4)
+lpd8.subscribe(consummer.ctrl_value, Programs.PGM_4, LPD8.CTRL, Knobs.ALL_KNOBS)
+lpd8.subscribe(consummer.note_on_value, Programs.PGM_4, LPD8.NOTE_ON, Pads.ALL_PADS)
+lpd8.subscribe(consummer.note_off_value, Programs.PGM_4, LPD8.NOTE_OFF, Pads.ALL_PADS)
+lpd8.subscribe(consummer.pgm_change, Programs.PGM_4, LPD8.PGM_CHG, Pgm_Chg.PGM_CHG_4)
+lpd8.subscribe(consummer.pgm_change, Programs.PGM_4, LPD8.PGM_CHG, Pgm_Chg.PGM_CHG_4)
 
 # We loop as long as test class allows it
 while consummer.is_running():

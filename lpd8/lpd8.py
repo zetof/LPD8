@@ -88,12 +88,12 @@ class LPD8(Thread):
             print("*** No LPD8 Controller found ***")
         Thread.__init__(self)
 
-    def subscribe(self, callback_class, callback_method, program, event_type, object_ids):
+    def subscribe(self, callback_method, program, event_type, object_ids):
         if isinstance(object_ids, list):
             for object_id in object_ids:
-                self._dispatcher.subscribe(callback_class, callback_method, program, event_type, object_id)
+                self._dispatcher.subscribe(callback_method, program, event_type, object_id)
         else:
-            self._dispatcher.subscribe(callback_class, callback_method, program, event_type, object_ids)
+            self._dispatcher.subscribe(callback_method, program, event_type, object_ids)
 
     def unsubscribe(self, program, event_type, object_id=None):
         self._dispatcher.unsubscribe(program, event_type, object_id)

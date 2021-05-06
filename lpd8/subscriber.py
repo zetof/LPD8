@@ -3,8 +3,7 @@ class Subscriber:
     Class that defines a subscriber to a specific event
     """
 
-    def __init__(self, callback_class, callback_method, program, event_type, object_id):
-        self._callback_class = callback_class
+    def __init__(self, callback_method, program, event_type, object_id):
         self._callback_method = callback_method
         self._program = program
         self._event_type = event_type
@@ -30,6 +29,6 @@ class Subscriber:
         :param data: The data to send to the subscriber for processing if any
         """
         if data == None:
-            self._callback_method.__func__(self._callback_class, [program, object_id])
+            self._callback_method([program, object_id])
         else:
-            self._callback_method.__func__(self._callback_class, [program, object_id, data])
+            self._callback_method([program, object_id, data])
